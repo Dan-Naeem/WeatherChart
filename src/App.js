@@ -6,13 +6,30 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      string : "blank",
-      number : 10,
+      string : "",
+      value: "",
     }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    this.setState({
+      string: this.state.value,
+      value: '',
+    });
+    event.preventDefault();
+  }
+
   render() {
     return (
       <div class="p-0 mx-2 d-flex flex-column">
+        
         <div class="jumbotron">
           <h1>
             Test Title
@@ -26,8 +43,26 @@ class App extends React.Component {
 
         <div class="jumbotron">
           <p>the string is {this.state.string}</p>
-          <p>the number is {this.state.number}</p>
+          <p>the value is {this.state.value}</p>
         </div>
+
+        <div class="jumbotron">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Name:
+              <input 
+                type="text" 
+                value={this.state.value} 
+                onChange={this.handleChange} 
+              />
+            </label>
+            <input 
+              type="submit" 
+              value="Submit" 
+            />
+          </form>
+        </div>
+
       </div>
     );
   }
