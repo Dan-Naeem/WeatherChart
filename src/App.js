@@ -8,12 +8,55 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      string : "",
+      string: "",
       value: "",
-    }
+      isLoading: true,
+      city: "",
+      date: [],
+      temp: [],
+      minTemp: [],
+      maxTemp: [],
+      error: null
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    fetch(URL + KEY)
+      .then(data => data.json())
+      .then(data => {
+        console.log(data);
+        let date = [];
+        let temp = [];
+        let minTemp = [];
+        let maxTemp = [];
+        data.list.forEach(element => {
+          //console.log(element);
+          // store date, and temp values
+          date.push(element.dt_txt);
+          temp.push(element.main.temp);
+          minTemp.push(element.main.temp_min);
+          maxTemp.push(element.main.temp_max);
+        });
+        /*
+        console.log(date);
+        console.log(temp);
+        console.log(minTemp);
+        console.log(maxTemp);
+        //*/
+        this.setState({
+          city: data.city.name,
+          date: date,
+          temp: temp,
+          minTemp: minTemp,
+          maxTemp: maxTemp,
+          isLoading: false
+        });
+      })
+      // Catch any errors we hit and update the app
+      .catch(error => this.setState({ error, isLoading: false }));
   }
 
   handleChange(event) {
