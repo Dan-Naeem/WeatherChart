@@ -60,54 +60,65 @@ class App extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
     this.setState({
       string: this.state.value,
-      value: '',
+      value: ""
     });
     event.preventDefault();
   }
 
   render() {
+    const isLoading = this.state.isLoading;
+
     return (
       <div class="p-0 mx-2 d-flex flex-column">
-        
         <div class="jumbotron">
-          <h1>
-            Test Title
-          </h1>
+          <h1>Test Title</h1>
           <br />
 
-          <p>
-            Test paragraph
-          </p>
+          <p>Test paragraph</p>
         </div>
 
         <div class="jumbotron">
           <p>the string is {this.state.string}</p>
           <p>the value is {this.state.value}</p>
+          <p>the city name is {this.state.city}</p>
+        </div>
+
+        <div class="jumbotron">
+          {isLoading ? (
+            <h1>Loading...</h1>
+          ) : (
+            <div>
+              <h3>Dates</h3>
+              <p>{this.state.date}</p>
+              <h3>Temp</h3>
+              <p>{this.state.temp}</p>
+              <h3>minTemp</h3>
+              <p>{this.state.minTemp}</p>
+              <h3>maxTemp</h3>
+              <p>{this.state.maxTemp}</p>
+            </div>
+          )}
         </div>
 
         <div class="jumbotron">
           <form onSubmit={this.handleSubmit}>
             <label>
               Name:
-              <input 
-                type="text" 
-                value={this.state.value} 
-                onChange={this.handleChange} 
+              <input
+                type="text"
+                value={this.state.value}
+                onChange={this.handleChange}
               />
             </label>
-            <input 
-              type="submit" 
-              value="Submit" 
-            />
+            <input type="submit" value="Submit" />
           </form>
         </div>
-
       </div>
     );
   }
