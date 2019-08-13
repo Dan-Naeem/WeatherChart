@@ -1,5 +1,7 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import { KEY } from "./config/keys.js";
+const URL = `https://api.openweathermap.org/data/2.5/forecast?zip=11218&APPID=`;
 
 class App extends React.Component {
   constructor(props) {
