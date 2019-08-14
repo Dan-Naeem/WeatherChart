@@ -1,6 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { KEY } from "./config/keys.js";
+import Graph from './Graph.js';
+
 const URL = `https://api.openweathermap.org/data/2.5/forecast?zip=11218&APPID=`;
 
 class App extends React.Component {
@@ -30,28 +32,15 @@ class App extends React.Component {
         console.log(data);
         let date = [];
         let temp = [];
-        let minTemp = [];
-        let maxTemp = [];
         data.list.forEach(element => {
-          //console.log(element);
           // store date, and temp values
           date.push(element.dt_txt);
           temp.push(element.main.temp);
-          minTemp.push(element.main.temp_min);
-          maxTemp.push(element.main.temp_max);
         });
-        /*
-        console.log(date);
-        console.log(temp);
-        console.log(minTemp);
-        console.log(maxTemp);
-        //*/
         this.setState({
           city: data.city.name,
           date: date,
           temp: temp,
-          minTemp: minTemp,
-          maxTemp: maxTemp,
           isLoading: false
         });
       })
@@ -89,19 +78,14 @@ class App extends React.Component {
           <p>the city name is {this.state.city}</p>
         </div>
 
-        <div class="jumbotron">
+        <div class="jumbotron bg-white">
           {isLoading ? (
             <h1>Loading...</h1>
           ) : (
             <div>
-              <h3>Dates</h3>
-              <p>{this.state.date}</p>
-              <h3>Temp</h3>
-              <p>{this.state.temp}</p>
-              <h3>minTemp</h3>
-              <p>{this.state.minTemp}</p>
-              <h3>maxTemp</h3>
-              <p>{this.state.maxTemp}</p>
+              <Graph 
+                temp={this.state.temp}
+              />
             </div>
           )}
         </div>
