@@ -13,9 +13,17 @@ import {
 class Graph extends Component {
   render() {
     let temp = [];
+    let Alaska = [];
+    let Arizona = [];
     for( let i = 0; i < this.props.temp.length; i++) {
       temp.push({
         x: i, y: ( (parseFloat(this.props.temp[i])-273.15)*(9/5)+32 ) 
+      });
+      Alaska.push({
+        x: i, y: ( (parseFloat(this.props.Alaska[i])-273.15)*(9/5)+32 )
+      });
+      Arizona.push({
+        x: i, y: ( (parseFloat(this.props.Arizona[i])-273.15)*(9/5)+32 )
       });
     }
     console.log('i am the graphjs file');
@@ -31,6 +39,13 @@ class Graph extends Component {
           <HorizontalGridLines />
           <LineMarkSeries 
             data={temp}
+            color='red'
+          />
+          <LineMarkSeries 
+            data={Alaska}
+          />
+          <LineMarkSeries 
+            data={Arizona}
           />
         </FlexibleWidthXYPlot>
       </div>

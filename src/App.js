@@ -3,7 +3,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import { KEY } from "./config/keys.js";
 import Graph from './Graph.js';
 
-const URL = `https://api.openweathermap.org/data/2.5/forecast?zip=11218&APPID=`;
+const URL1 = `https://api.openweathermap.org/data/2.5/forecast?zip=`;
+const URL2 = `&APPID=`;
 
 class App extends React.Component {
   constructor(props) {
@@ -14,10 +15,11 @@ class App extends React.Component {
       value: "",
       isLoading: true,
       city: "",
+      zipcode: 11218,
       date: [],
       temp: [],
-      minTemp: [],
-      maxTemp: [],
+      Alaska: [],
+      Arizona: [],
       error: null
     };
 
@@ -26,7 +28,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(URL + KEY)
+    fetch(URL1 + this.state.zipcode + URL2 + KEY)
       .then(data => data.json())
       .then(data => {
         console.log(data);
@@ -41,11 +43,54 @@ class App extends React.Component {
           city: data.city.name,
           date: date,
           temp: temp,
+          Alaska: temp,
+          Arizona: temp,
           isLoading: false
         });
+        console.log('end fetch');
+        this.grab_weather();
       })
       // Catch any errors we hit and update the app
       .catch(error => this.setState({ error, isLoading: false }));
+  }
+
+  grab_weather() {
+    console.log('entered grab weather');
+    // zip codes
+    const FAIRBANKS_ALASKA_ZIP = '99703';
+    const TUCSON_ARIZONA_ZIP = '85641';
+    // get weather data for Alaska
+    fetch(URL1 + FAIRBANKS_ALASKA_ZIP + URL2 + KEY)
+    .then(data => data.json())
+    .then(data => {
+      console.log('alaska');
+      let Alaska = [];
+      data.list.forEach(element => {
+        // store date, and temp values
+        Alaska.push(element.main.temp);
+      });
+      this.setState({
+        Alaska: Alaska,
+      });
+    })
+    // Catch any errors we hit and update the app
+    .catch(error => this.setState({ error, isLoading: false }));
+    // get weather data for Arizona
+    fetch(URL1 + TUCSON_ARIZONA_ZIP + URL2 + KEY)
+    .then(data => data.json())
+    .then(data => {
+      console.log('arizona');
+      let Arizona = [];
+      data.list.forEach(element => {
+        // store date, and temp values
+        Arizona.push(element.main.temp);
+      });
+      this.setState({
+        Arizona: Arizona,
+      });
+    })
+    // Catch any errors we hit and update the app
+    .catch(error => this.setState({ error, isLoading: false }));
   }
 
   handleChange(event) {
@@ -62,6 +107,9 @@ class App extends React.Component {
 
   render() {
     const isLoading = this.state.isLoading;
+    const temp = this.state.temp;
+    const Alaska = this.state.Alaska;
+    const Arizona = this.state.Arizona;
 
     return (
       <div class="p-0 mx-2 d-flex flex-column">
@@ -84,7 +132,9 @@ class App extends React.Component {
           ) : (
             <div>
               <Graph 
-                temp={this.state.temp}
+                temp={temp}
+                Alaska={Alaska}
+                Arizona={Arizona}
               />
             </div>
           )}
