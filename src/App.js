@@ -129,15 +129,15 @@ class App extends React.Component {
     const Arizona = this.state.Arizona;
 
     return (
-      <div class="p-0 mx-2 d-flex flex-column">
-        <div class="jumbotron">
-          <h1>Test Title</h1>
-          <br />
+      <div class="p-0 m-2 d-flex flex-column">
 
-          <p>Test paragraph</p>
+        <div class="card bg-light mb-2">
+          <div class="card-body">
+            <h1 class="card-title">Test Title</h1>
+          </div>
         </div>
 
-        <div class="card mb-4 bg-light border-light">
+        <div class="card bg-light mb-2">
           <form 
             class="card-body" 
             onSubmit={this.handleSubmit}
@@ -146,7 +146,7 @@ class App extends React.Component {
               ENTER ZIPCODE
             </h6>
 
-            <div class="input-group mb-3">
+            <div class="input-group">
               <input
                 class="form-control"
                 placeholder="Please make sure to enter a valid zipcode"
@@ -171,24 +171,25 @@ class App extends React.Component {
           </form>
         </div>
 
-        <div class="jumbotron bg-white">
+        <div class="card bg-white mb-2">
           {isLoading ? (
             <h1>Loading...</h1>
           ) : (
             <div>
-              <h1>{this.state.city}</h1>
-              <h3>{this.state.zipcode}</h3>
-              <Graph 
-                temp={temp}
-                Alaska={Alaska}
-                Arizona={Arizona}
-              />
+              <div class="card-header bg-light">
+                <h2>{this.state.city}, {this.state.zipcode}</h2>
+              </div>
+              <div class="card-body">
+                <Graph 
+                  temp={temp}
+                  Alaska={Alaska}
+                  Arizona={Arizona}
+                />
+              </div>
             </div>
           )}
         </div>
 
-        <div class="jumbotron">
-        </div>
       </div>
     );
   }
