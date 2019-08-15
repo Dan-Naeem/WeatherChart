@@ -137,21 +137,39 @@ class App extends React.Component {
           <p>Test paragraph</p>
         </div>
 
-        <div class="jumbotron d-flex">
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Name:
+        <div class="card mb-4 bg-light border-light">
+          <form 
+            class="card-body" 
+            onSubmit={this.handleSubmit}
+          > 
+            <h6 class="card-title">
+              ENTER ZIPCODE
+            </h6>
+
+            <div class="input-group mb-3">
               <input
+                class="form-control"
+                placeholder="Please make sure to enter a valid zipcode"
                 type="number"
                 value={this.state.value}
                 onChange={this.handleChange}
               />
-            </label>
-            <input type="submit" value="Submit" />
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" value="Submit">
+                  Submit
+                </button>
+              </div>
+            </div>
+            
+            {(
+              error
+            ) ? (
+              <small class="form-text text-danger">yes error</small>
+            ) : (
+              null
+            )}
           </form>
         </div>
-
-        {error ? (<h1>{error}</h1>) : null}
 
         <div class="jumbotron bg-white">
           {isLoading ? (
