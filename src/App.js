@@ -98,14 +98,31 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
+    // remove error
     this.setState({
-      string: this.state.value,
-      value: ""
+      error: null,
     });
+    // capture current
+    let value = this.state.value;
+    // check if valid
+    if (value.length !== 5) {
+      this.setState({
+        error: 'Please enter a valid zipcode',
+        value: "",
+      });
+    }
+    // else valid
+    else {
+      this.setState({
+        zipcode: value,
+        value: ""
+      });
+    }
     event.preventDefault();
   }
 
   render() {
+    const error = this.state.error;
     const isLoading = this.state.isLoading;
     const temp = this.state.temp;
     const Alaska = this.state.Alaska;
@@ -120,17 +137,29 @@ class App extends React.Component {
           <p>Test paragraph</p>
         </div>
 
-        <div class="jumbotron">
-          <p>the string is {this.state.string}</p>
-          <p>the value is {this.state.value}</p>
-          <p>the city name is {this.state.city}</p>
+        <div class="jumbotron d-flex">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Name:
+              <input
+                type="number"
+                value={this.state.value}
+                onChange={this.handleChange}
+              />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
         </div>
+
+        {error ? (<h1>{error}</h1>) : null}
 
         <div class="jumbotron bg-white">
           {isLoading ? (
             <h1>Loading...</h1>
           ) : (
             <div>
+              <h1>{this.state.city}</h1>
+              <h3>{this.state.zipcode}</h3>
               <Graph 
                 temp={temp}
                 Alaska={Alaska}
@@ -141,17 +170,6 @@ class App extends React.Component {
         </div>
 
         <div class="jumbotron">
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Name:
-              <input
-                type="text"
-                value={this.state.value}
-                onChange={this.handleChange}
-              />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
         </div>
       </div>
     );
